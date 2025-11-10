@@ -94,7 +94,7 @@ def main():
 
     # Get the random sample
     pages_to_test = random.sample(all_pages, sample_size)
-    print(f"Loaded {total_pages} pages. Sampling {sample_size} (10%)...\n")
+    print(f"Loaded {total_pages} pages. Sampling {sample_size} ({SAMPLE_PERCENT:.1%})...\n")
 
     # --- 2. Initialize Concurrency Tools ---
     semaphore = threading.Semaphore(MAX_CONCURRENT_REQUESTS)
