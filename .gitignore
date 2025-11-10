@@ -1,0 +1,8 @@
+public_pages.csv
+
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+__pycache__/
