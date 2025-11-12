@@ -22,15 +22,11 @@ To maintain simplicity as requested, the script will rely only on standard Pytho
     * `csv`: (Python built-in) To write the data to a `.csv` file.
     * `sys`: (Python built-in) To print feedback and exit on critical errors.
 
-## 3. Data Flow Diagram
-
-[Start] | V [Read CONFIG: CONFLUENCE_BASE_URL] | V [Initialize] (next_page_url = BASE_URL + "/rest/api/content") (all_pages = []) | V <--[Loop: While next_page_url exists] | | | V | [Make Anonymous GET Request] | (to next_page_url) | | | V | [Handle Errors (Connection, HTTP)] | | | V | [Parse JSON Response] | | | V | [Extract 'results' list] -> Add to all_pages | | | V | [Get '_links.next'] | (next_page_url = value OR None) | | ---[End Loop] | V [Process all_pages] (Filter for "page" type) (Create full URL: BASE_URL + webui_link) (Create list of [Title, Full_URL]) | V [Write to CSV] (Open 'public_pages.csv') (Write Headers: "Page Title", "Page URL") (Write all processed pages) | V [Print Success Message] ("Scan complete! Found 234 pages...") | V [End]
-
-## 4. Component Design (Script Structure)
+## 3. Component Design (Script Structure)
 
 The script will be organized into logical functions.
 
-### 4.1. Configuration (Global)
+### 3.1. Configuration (Global)
 
 A set of clearly marked variables will be placed at the top of the file, as requested in Story 3.
 
@@ -48,7 +44,7 @@ OUTPUT_FILENAME = "public_pages.csv"
 # --- END CONFIGURATION ---
 ```
 
-### 4.2. Main Function
+### 3.2. Main Function
 
 This function will orchestrate the entire process and include top-level error handling.
 
@@ -63,9 +59,9 @@ Tasks:
 Exception Handling:
 - ConnectionError, HTTPError, etc - print a helpful error message and exit. 
 
-### 4.3. API Fetcher
+### 3.3. API Fetcher
 
-This function will handle the loop for pulling the URLs from the Confluence API.
+This function will handle the loop for pulling the URLs from the Confluence API. It will use the `type=page` query param to only pull content that are the 'page' type. 
 
 Function Definition: `fetch_all_public_pages(url)`
 
@@ -83,7 +79,7 @@ Loop Architecture:
 5. Update the progress.
 6. Get the next URL from `_links.next`. If the key doesn't exist, terminate the loop.
 
-### 4.4. Data Processor
+### 3.4. Data Processor
 
 Logic: This function transforms the raw API data into the simple CSV format.
 
@@ -97,12 +93,11 @@ OUTPUTS:
 - `cleaned_pages`: list of tuples (str, str): A list of Page Titles and their corresponding URLS.
 
 Loop Architecture:
-1. Check if `item['type'] == 'page'`
-2. If it's a page, extract title and relative URL
-3. Generate full URL with `base_url` plus relative URL
-4. Append the tuple of Title and Full URL to the `cleaned_pages`
+1. Extract title and relative URL
+2. Generate full URL with `base_url` plus relative URL
+3. Append the tuple of Title and Full URL to the `cleaned_pages`
 
-### 4.5. CSV Writer
+### 3.5. CSV Writer
 
 Writes the data to the CSV.
 
@@ -115,7 +110,7 @@ Logic:
 2. Write headers `["Page Title", "Page URL"]`
 3. Save all processed page data
 
-## 5. Error Handling Strategy
+## 4. Error Handling Strategy
 
 This design directly addresses "Helpful Errors" (Story 5).
 

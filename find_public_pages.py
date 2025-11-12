@@ -50,11 +50,18 @@ def fetch_all_public_pages(start_url):
     next_page_url = start_url
     page_count = 1
 
+    initial_params = {'type': 'page'}
+
     # Keep fetching pages as long as a 'next' link is provided
     while next_page_url:
         try:
+            # Only apply the initial_params on the *first* request.
+            # Subsequent 'next_url' values from the API will already include
+            # all necessary parameters.
+            params = initial_params if next_page_url == start_url else None
+
             # Make the anonymous GET request
-            response = requests.get(next_page_url)
+            response = requests.get(next_page_url, params=params)
 
             # Check for HTTP errors (e.g., 404, 500)
             response.raise_for_status()
@@ -120,14 +127,12 @@ def process_page_data(raw_results, base_url):
     cleaned_pages = []
     for item in raw_results:
         try:
-            # We only care about items that are a 'page'
-            if item.get('type') == 'page':
-                title = item['title']
-                # The webui link is relative, needs the base URL
-                relative_url = item['_links']['webui']
-                full_url = base_url + relative_url
+            title = item['title']
+            # The webui link is relative, needs the base URL
+            relative_url = item['_links']['webui']
+            full_url = base_url + relative_url
 
-                cleaned_pages.append((title, full_url))
+            cleaned_pages.append((title, full_url))
         except KeyError as e:
             # This handles items that are 'page' type but missing a title or link
             print(f"Warning: Skipping an item due to missing data (KeyError: {e}).")
