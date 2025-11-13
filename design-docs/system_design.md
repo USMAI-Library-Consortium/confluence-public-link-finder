@@ -8,8 +8,8 @@ The system will be a single, standalone Python script. The user will configure t
 
 The script's architecture is based on a simple **Extract, Transform, Load (ETL)** process:
 
-1.  **Extract:** Iteratively fetch all paginated results from the Confluence `/rest/api/content` endpoint. Critically, these requests are made **anonymously** (without authentication), so the API will only return content visible to the public.
-2.  **Transform:** Parse the collected JSON responses. For each item, filter for `type: "page"` and extract the `title` and `_links.webui`. The `webui` relative path will be combined with the `CONFLUENCE_BASE_URL` to create a full, clickable URL.
+1.  **Extract:** Iteratively fetch all paginated results from the Confluence `/rest/api/content` endpoint, querying only for pages. Critically, these requests are made **anonymously** (without authentication), so the API will only return content visible to the public. We also want to pull what space this page belongs to.
+2.  **Transform:** Parse the collected JSON responses. For each item, filter for non-archived content and extract the `title` and `_links.webui`. The `webui` relative path will be combined with the `CONFLUENCE_BASE_URL` to create a full, clickable URL.
 3.  **Load:** Write the transformed list of (Title, URL) pairs into a single `.csv` file in the same directory.
 
 ## 2. Core Technology Stack
@@ -41,6 +41,9 @@ API_START_ENDPOINT = "/rest/api/content"
 
 # The name of the output file.
 OUTPUT_FILENAME = "public_pages.csv"
+
+# List of space keys to exclude from the final report due to them being archived, per RFC-3.
+ARCHIVED_SPACES = ['COV19', 'DR']
 # --- END CONFIGURATION ---
 ```
 
@@ -93,9 +96,11 @@ OUTPUTS:
 - `cleaned_pages`: list of tuples (str, str): A list of Page Titles and their corresponding URLS.
 
 Loop Architecture:
-1. Extract title and relative URL
-2. Generate full URL with `base_url` plus relative URL
-3. Append the tuple of Title and Full URL to the `cleaned_pages`
+1. Extract the Space Key from the `item["_expandable"]["container"]` path, which is in the format `/rest/api/space/SYSTEMS` with `SYSTEMS` being the desired key. 
+2. Check whether a page is archived by comparing the space with a list of archived spaces. The list, for all intents and purposes, is static to `['COV19', 'DR']`
+3. If a page is NOT archived, extract title and relative URL & proceed with the following steps
+4. Generate full URL with `base_url` plus relative URL
+5. Append the tuple of Title and Full URL to the `cleaned_pages`
 
 ### 3.5. CSV Writer
 

@@ -23,6 +23,9 @@ API_START_ENDPOINT = "/rest/api/content"
 
 # The name of the output file.
 OUTPUT_FILENAME = "public_pages.csv"
+
+# List of space keys to exclude from the final report, per RFC-3.
+ARCHIVED_SPACES = ['COV19', 'DR']
 # --- END CONFIGURATION ---
 
 
@@ -113,9 +116,11 @@ def fetch_all_public_pages(start_url):
     return all_results
 
 
-def process_page_data(raw_results, base_url):
+def process_page_data(raw_results: list[dict], base_url):
     """
     Filters the raw API results for "page" type and extracts title and URL.
+
+    Per RFC-3, this function also filters out pages from archived spaces.
 
     Args:
         raw_results (list): List of raw item dictionaries from the API.
@@ -125,18 +130,33 @@ def process_page_data(raw_results, base_url):
         list: A list of (title, url) tuples.
     """
     cleaned_pages = []
+    print(f"  -> Processing {len(raw_results)} items. Filtering archived spaces...")
+    
     for item in raw_results:
         try:
+            # --- Start: RFC-3 Change ---
+            # The 'container' path is like '/rest/api/space/SYSTEMS'
+            # We split by '/' and take the last part to get the space key.
+            space_key = item['_expandable']['container'].split('/')[-1]
+
+            # If the space is in the archived list, skip this item
+            if space_key in ARCHIVED_SPACES:
+                continue
+            # --- End: RFC-3 Change ---
+
+            # If not archived, proceed
             title = item['title']
             # The webui link is relative, needs the base URL
             relative_url = item['_links']['webui']
             full_url = base_url + relative_url
 
             cleaned_pages.append((title, full_url))
+        
         except KeyError as e:
-            # This handles items that are 'page' type but missing a title or link
+            # This handles items missing a title, link, or expandable container
             print(f"Warning: Skipping an item due to missing data (KeyError: {e}).")
 
+    print(f"  -> Found {len(cleaned_pages)} non-archived public pages.")
     return cleaned_pages
 
 

@@ -1,0 +1,667 @@
+{
+  "results": [
+    {
+      "id": 1769481,
+      "key": "AS",
+      "name": "Access Services Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "admin-portal",
+        "userKey": "018293c86db6e005016db6e70d920000",
+        "displayName": "Admin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86db6e005016db6e70d920000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-10-23T09:08:06.955-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "kfowler",
+        "userKey": "018293c86df38771016df88952a40002",
+        "displayName": "Katia Fowler",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88952a40002"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2024-10-10T11:07:35.468-04:00",
+      "_links": {
+        "webui": "/spaces/AS/overview",
+        "self": "https://usmai.org/portal/rest/api/space/AS"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/1540137"
+      }
+    },
+    {
+      "id": 1769482,
+      "key": "ACQSER",
+      "name": "Acquisitions & Serials Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "admin-portal",
+        "userKey": "018293c86db6e005016db6e70d920000",
+        "displayName": "Admin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86db6e005016db6e70d920000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-10-23T09:08:27.120-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:08:58.498-04:00",
+      "_links": {
+        "webui": "/spaces/ACQSER/overview",
+        "self": "https://usmai.org/portal/rest/api/space/ACQSER"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/1540140"
+      }
+    },
+    {
+      "id": 1769483,
+      "key": "CDM",
+      "name": "Cataloging & Database Management Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "admin-portal",
+        "userKey": "018293c86db6e005016db6e70d920000",
+        "displayName": "Admin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86db6e005016db6e70d920000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-10-23T09:08:46.577-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:09:37.445-04:00",
+      "_links": {
+        "webui": "/spaces/CDM/overview",
+        "self": "https://usmai.org/portal/rest/api/space/CDM"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/1540143"
+      }
+    },
+    {
+      "id": 236781570,
+      "key": "COLLECTIONS",
+      "name": "Collections Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "apace",
+        "userKey": "8a7485f97e9b96fa017eb706a35a0004",
+        "displayName": "Andrew Pace",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=8a7485f97e9b96fa017eb706a35a0004"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2023-03-24T14:49:40.437-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:10:13.089-04:00",
+      "_links": {
+        "webui": "/spaces/COLLECTIONS/overview",
+        "self": "https://usmai.org/portal/rest/api/space/COLLECTIONS"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/234553701"
+      }
+    },
+    {
+      "id": 26443777,
+      "key": "COV19",
+      "name": "COVID-19",
+      "status": "archived",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "ddahl1",
+        "userKey": "018293c86df38771016df889c61d0003",
+        "displayName": "David Dahl",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df889c61d0003"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2020-03-25T16:03:30.516-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "kfowler",
+        "userKey": "018293c86df38771016df88952a40002",
+        "displayName": "Katia Fowler",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88952a40002"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2024-08-14T14:08:37.251-04:00",
+      "_links": {
+        "webui": "/spaces/COV19/overview",
+        "self": "https://usmai.org/portal/rest/api/space/COV19"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": ""
+      }
+    },
+    {
+      "id": 8716290,
+      "key": "DR",
+      "name": "Documentation Repository",
+      "status": "archived",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "ddahl1",
+        "userKey": "018293c86df38771016df889c61d0003",
+        "displayName": "David Dahl",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df889c61d0003"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-12-10T12:45:15.448-05:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2024-11-20T10:49:25.369-05:00",
+      "_links": {
+        "webui": "/spaces/DR/overview",
+        "self": "https://usmai.org/portal/rest/api/space/DR"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/7246642"
+      }
+    },
+    {
+      "id": 79462401,
+      "key": "EAST",
+      "name": "EAST Participants Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "jkoivist",
+        "userKey": "018293c86df38771016df87dec5e0000",
+        "displayName": "Joseph Koivisto",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df87dec5e0000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2021-03-11T11:26:21.810-05:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:10:53.759-04:00",
+      "_links": {
+        "webui": "/spaces/EAST/overview",
+        "self": "https://usmai.org/portal/rest/api/space/EAST"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/78479415"
+      }
+    },
+    {
+      "id": 1769484,
+      "key": "ERM",
+      "name": "Electronic Resources Management Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "admin-portal",
+        "userKey": "018293c86db6e005016db6e70d920000",
+        "displayName": "Admin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86db6e005016db6e70d920000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-10-23T09:09:06.350-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:11:29.300-04:00",
+      "_links": {
+        "webui": "/spaces/ERM/overview",
+        "self": "https://usmai.org/portal/rest/api/space/ERM"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/1540146"
+      }
+    },
+    {
+      "id": 851969,
+      "key": "MAIN",
+      "name": "Home",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "admin-portal",
+        "userKey": "018293c86db6e005016db6e70d920000",
+        "displayName": "Admin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86db6e005016db6e70d920000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-10-10T17:07:02.586-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "kfowler",
+        "userKey": "018293c86df38771016df88952a40002",
+        "displayName": "Katia Fowler",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88952a40002"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-01-23T12:09:50.109-05:00",
+      "_links": {
+        "webui": "/spaces/MAIN/overview",
+        "self": "https://usmai.org/portal/rest/api/space/MAIN"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/884737"
+      }
+    },
+    {
+      "id": 37355521,
+      "key": "NEXTILS",
+      "name": "ILS Migration",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "ddahl1",
+        "userKey": "018293c86df38771016df889c61d0003",
+        "displayName": "David Dahl",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df889c61d0003"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2020-06-10T15:54:34.372-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "ddahl1",
+        "userKey": "018293c86df38771016df889c61d0003",
+        "displayName": "David Dahl",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df889c61d0003"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2020-06-10T15:54:34.372-04:00",
+      "_links": {
+        "webui": "/spaces/NEXTILS/overview",
+        "self": "https://usmai.org/portal/rest/api/space/NEXTILS"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/37126150"
+      }
+    },
+    {
+      "id": 1769485,
+      "key": "ILL",
+      "name": "Interlibrary Loan Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "admin-portal",
+        "userKey": "018293c86db6e005016db6e70d920000",
+        "displayName": "Admin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86db6e005016db6e70d920000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-10-23T09:09:27.731-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:12:28.714-04:00",
+      "_links": {
+        "webui": "/spaces/ILL/overview",
+        "self": "https://usmai.org/portal/rest/api/space/ILL"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/1540149"
+      }
+    },
+    {
+      "id": 304971777,
+      "key": "PARTY",
+      "name": "Post-migration Celebration",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "kfowler",
+        "userKey": "018293c86df38771016df88952a40002",
+        "displayName": "Katia Fowler",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88952a40002"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2024-07-01T13:27:09.500-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "kfowler",
+        "userKey": "018293c86df38771016df88952a40002",
+        "displayName": "Katia Fowler",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88952a40002"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2024-07-01T13:27:09.500-04:00",
+      "_links": {
+        "webui": "/spaces/PARTY/overview",
+        "self": "https://usmai.org/portal/rest/api/space/PARTY"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/298091892"
+      }
+    },
+    {
+      "id": 5996546,
+      "key": "RI",
+      "name": "Reference & Instruction Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "jkoivist",
+        "userKey": "018293c86df38771016df87dec5e0000",
+        "displayName": "Joseph Koivisto",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df87dec5e0000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-11-21T11:39:58.232-05:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:12:51.760-04:00",
+      "_links": {
+        "webui": "/spaces/RI/overview",
+        "self": "https://usmai.org/portal/rest/api/space/RI"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/5669011"
+      }
+    },
+    {
+      "id": 320536577,
+      "key": "SYSTEMS",
+      "name": "Shared Systems",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2024-11-01T13:57:23.414-04:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2024-11-01T13:57:23.414-04:00",
+      "_links": {
+        "webui": "/spaces/SYSTEMS/overview",
+        "self": "https://usmai.org/portal/rest/api/space/SYSTEMS"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/319881346"
+      }
+    },
+    {
+      "id": 5996547,
+      "key": "SCA",
+      "name": "Special Collections & Archives Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "jkoivist",
+        "userKey": "018293c86df38771016df87dec5e0000",
+        "displayName": "Joseph Koivisto",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df87dec5e0000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-11-21T11:43:24.565-05:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:13:14.358-04:00",
+      "_links": {
+        "webui": "/spaces/SCA/overview",
+        "self": "https://usmai.org/portal/rest/api/space/SCA"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/5669018"
+      }
+    },
+    {
+      "id": 5996548,
+      "key": "UE",
+      "name": "User Experience, Accessibility & Discovery Community",
+      "status": "current",
+      "type": "global",
+      "creator": {
+        "type": "known",
+        "username": "jkoivist",
+        "userKey": "018293c86df38771016df87dec5e0000",
+        "displayName": "Joseph Koivisto",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df87dec5e0000"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "creationDate": "2019-11-21T11:52:35.231-05:00",
+      "lastModifier": {
+        "type": "known",
+        "username": "lseguin",
+        "userKey": "018293c86df38771016df88861540001",
+        "displayName": "Linda Seguin",
+        "_links": {
+          "self": "https://usmai.org/portal/rest/api/user?key=018293c86df38771016df88861540001"
+        },
+        "_expandable": { "profilePicture": "", "status": "" }
+      },
+      "lastModificationDate": "2025-05-02T08:13:43.017-04:00",
+      "_links": {
+        "webui": "/spaces/UE/overview",
+        "self": "https://usmai.org/portal/rest/api/space/UE"
+      },
+      "_expandable": {
+        "metadata": "",
+        "permissions": "",
+        "icon": "",
+        "description": "",
+        "retentionPolicy": "",
+        "homepage": "/rest/api/content/5669027"
+      }
+    }
+  ],
+  "start": 0,
+  "limit": 25,
+  "size": 16,
+  "_links": {
+    "self": "https://usmai.org/portal/rest/api/space",
+    "base": "https://usmai.org/portal",
+    "context": "/portal"
+  }
+}
