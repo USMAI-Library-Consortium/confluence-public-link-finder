@@ -26,6 +26,10 @@ OUTPUT_FILENAME = "public_pages.csv"
 
 # List of space keys to exclude from the final report, per RFC-3.
 ARCHIVED_SPACES = ['COV19', 'DR']
+
+# The year threshold for highlighting archivable candidates, per RFC-4.
+# Any page last modified in or before this year will be marked.
+ARCHIVE_THRESHOLD_YEAR = 2019
 # --- END CONFIGURATION ---
 
 
@@ -53,7 +57,7 @@ def fetch_all_public_pages(start_url):
     next_page_url = start_url
     page_count = 1
 
-    initial_params = {'type': 'page'}
+    initial_params = {'type': 'page', 'expand': 'history.lastUpdated'}
 
     # Keep fetching pages as long as a 'next' link is provided
     while next_page_url:
@@ -116,7 +120,7 @@ def fetch_all_public_pages(start_url):
     return all_results
 
 
-def process_page_data(raw_results: list[dict], base_url):
+def process_page_data(raw_results: list[dict], base_url, archive_year_threshold: int):
     """
     Filters the raw API results for "page" type and extracts title and URL.
 
@@ -127,7 +131,7 @@ def process_page_data(raw_results: list[dict], base_url):
         base_url (str): The base Confluence URL to build full URLs.
 
     Returns:
-        list: A list of (title, url) tuples.
+        list: A list of (title, url, is_archivable) tuples.
     """
     cleaned_pages = []
     print(f"  -> Processing {len(raw_results)} items. Filtering archived spaces...")
@@ -135,9 +139,9 @@ def process_page_data(raw_results: list[dict], base_url):
     for item in raw_results:
         try:
             # --- Start: RFC-3 Change ---
-            # The 'container' path is like '/rest/api/space/SYSTEMS'
+            # The 'space' path is like '/rest/api/space/SYSTEMS'
             # We split by '/' and take the last part to get the space key.
-            space_key = item['_expandable']['container'].split('/')[-1]
+            space_key = item['_expandable']['space'].split('/')[-1]
 
             # If the space is in the archived list, skip this item
             if space_key in ARCHIVED_SPACES:
@@ -150,7 +154,23 @@ def process_page_data(raw_results: list[dict], base_url):
             relative_url = item['_links']['webui']
             full_url = base_url + relative_url
 
-            cleaned_pages.append((title, full_url))
+            # --- Start: RFC-4 Change ---
+            # Check if the page is a candidate for archiving
+            is_archivable = False  # Default
+            try:
+                # The 'when' field is an ISO 8601 string: "2018-05-15T14:42:15.839Z"
+                last_updated_str = item['history']['lastUpdated']['when']
+                # We only need the year, so we split the string and take the first part
+                last_updated_year = int(last_updated_str.split('-')[0])
+                
+                if last_updated_year <= archive_year_threshold:
+                    is_archivable = True
+            except (KeyError, IndexError, TypeError, ValueError):
+                # Handle pages with missing history or unexpected date formats
+                print(f"Warning: Could not determine last-modified date for '{title}'.")
+            
+            cleaned_pages.append((title, full_url, is_archivable))
+            # --- End: RFC-4 Change ---
         
         except KeyError as e:
             # This handles items missing a title, link, or expandable container
@@ -176,11 +196,16 @@ def write_to_csv(pages_list, filename):
         with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.writer(csvfile)
 
+            # --- Start: RFC-4 Change ---
             # Write headers
-            writer.writerow(["Page Title", "Page URL"])
+            writer.writerow(["Page Title", "Page URL", "Last Modified 6+ Years Ago?"])
 
             # Write all the page data
-            writer.writerows(pages_list)
+            # We loop manually to format the boolean as 'Yes' or an empty string
+            for title, url, is_archivable in pages_list:
+                archive_status = "Yes" if is_archivable else ""
+                writer.writerow([title, url, archive_status])
+            # --- End: RFC-4 Change ---
 
     except PermissionError:
         # PRD Story 5: Helpful Errors
@@ -214,7 +239,7 @@ def main():
 
         # 2. Transform
         print(f"\nProcessing {len(raw_data)} items to find pages...")
-        public_pages = process_page_data(raw_data, base_url)
+        public_pages = process_page_data(raw_data, base_url, ARCHIVE_THRESHOLD_YEAR)
 
         if not public_pages:
             print("\nScan complete! No public pages were found.")
@@ -222,11 +247,19 @@ def main():
 
         # 3. Load
         print(f"Writing {len(public_pages)} public pages to {OUTPUT_FILENAME}...")
+
+        # --- Start: RFC-4 Change ---
+        # Count archivable candidates for the final report
+        archive_candidate_count = sum(1 for page in public_pages if page[2]) # page[2] is the boolean
+        print(f"  -> Of these, {archive_candidate_count} pages are candidates for archiving (modified in or before {ARCHIVE_THRESHOLD_YEAR}).")
+        # --- End: RFC-4 Change ---
+
         write_to_csv(public_pages, OUTPUT_FILENAME)
 
         # PRD Step 5: Final Success Message
         print("\n---")
         print(f"Scan complete! Found {len(public_pages)} public pages.")
+        print(f"({archive_candidate_count} are potential archive candidates)")
         print(f"Your report is ready: {OUTPUT_FILENAME}")
         print("---")
 
