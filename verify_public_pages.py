@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # --- CONFIGURATION ---
 # The file to read from (should match OUTPUT_FILENAME from the first script)
-INPUT_FILENAME = "public_pages.csv"
+INPUT_FILENAME = "non_archived_public_pages.csv"
 
 # What percentage of links to sample for verification.
 # 0.1 = 10%, 0.25 = 25%, etc.
