@@ -22,7 +22,7 @@ CONFLUENCE_BASE_URL = "https://usmai.org/portal"
 API_START_ENDPOINT = "/rest/api/content"
 
 # The name of the output file.
-OUTPUT_FILENAME = "public_pages.csv"
+OUTPUT_FILENAME = "non_archived_public_pages.csv"
 
 # List of space keys to exclude from the final report, per RFC-3.
 ARCHIVED_SPACES = ['COV19', 'DR']
@@ -57,7 +57,8 @@ def fetch_all_public_pages(start_url):
     next_page_url = start_url
     page_count = 1
 
-    initial_params = {'type': 'page', 'expand': 'history.lastUpdated'}
+    # RFC-5: Added history.createdBy to fetch creator details
+    initial_params = {'type': 'page', 'expand': 'history.lastUpdated,history.createdBy'}
 
     # Keep fetching pages as long as a 'next' link is provided
     while next_page_url:
@@ -154,8 +155,14 @@ def process_page_data(raw_results: list[dict], base_url, archive_year_threshold:
             relative_url = item['_links']['webui']
             full_url = base_url + relative_url
 
-            # --- Start: RFC-4 Change ---
-            # Check if the page is a candidate for archiving
+            # RFC-5 - Extract Creator Name
+            # We use .get() chains to avoid KeyErrors if data is missing or user is anonymous
+            creator_name = item.get('history', {}).get('createdBy', {}).get('displayName', 'Unknown/Anonymous')
+
+            # RFC-5 - Extract Last Modifier Name
+            modifier_name = item.get('history', {}).get('lastUpdated', {}).get('by', {}).get('displayName', 'Unknown/Anonymous')
+
+            # RFC-4: Check if the page is a candidate for archiving
             is_archivable = False  # Default
             try:
                 # The 'when' field is an ISO 8601 string: "2018-05-15T14:42:15.839Z"
@@ -168,9 +175,9 @@ def process_page_data(raw_results: list[dict], base_url, archive_year_threshold:
             except (KeyError, IndexError, TypeError, ValueError):
                 # Handle pages with missing history or unexpected date formats
                 print(f"Warning: Could not determine last-modified date for '{title}'.")
-            
-            cleaned_pages.append((title, full_url, is_archivable))
-            # --- End: RFC-4 Change ---
+        
+            # RFC-5: Added creator_name and modifier_name to the tuple
+            cleaned_pages.append((title, full_url, creator_name, modifier_name, is_archivable))
         
         except KeyError as e:
             # This handles items missing a title, link, or expandable container
@@ -196,16 +203,15 @@ def write_to_csv(pages_list, filename):
         with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.writer(csvfile)
 
-            # --- Start: RFC-4 Change ---
             # Write headers
-            writer.writerow(["Page Title", "Page URL", "Last Modified 6+ Years Ago?"])
+            writer.writerow(["Page Title", "Page URL", "Creator", "Last Modifier", "Last Modified 6+ Years Ago?"])
 
             # Write all the page data
             # We loop manually to format the boolean as 'Yes' or an empty string
-            for title, url, is_archivable in pages_list:
+            for title, url, creator, modifier, is_archivable in pages_list:
+                # RFC-4: Create status for whether a page is a likely candidate for archiving.
                 archive_status = "Yes" if is_archivable else ""
-                writer.writerow([title, url, archive_status])
-            # --- End: RFC-4 Change ---
+                writer.writerow([title, url, creator, modifier, archive_status])
 
     except PermissionError:
         # PRD Story 5: Helpful Errors
@@ -250,7 +256,7 @@ def main():
 
         # --- Start: RFC-4 Change ---
         # Count archivable candidates for the final report
-        archive_candidate_count = sum(1 for page in public_pages if page[2]) # page[2] is the boolean
+        archive_candidate_count = sum(1 for page in public_pages if page[4]) # page[4] is the boolean
         print(f"  -> Of these, {archive_candidate_count} pages are candidates for archiving (modified in or before {ARCHIVE_THRESHOLD_YEAR}).")
         # --- End: RFC-4 Change ---
 

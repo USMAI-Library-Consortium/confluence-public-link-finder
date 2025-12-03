@@ -1,4 +1,4 @@
-public_pages.csv
+*.csv
 
 ### macOS ###
 *.DS_Store

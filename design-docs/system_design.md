@@ -79,7 +79,7 @@ OUTPUTS:
 - `pages`: A list containing all the raw page data (dictionaries) returned from the API.
 
 Steps:
-1. Define the required query parameters: {'type': 'page', 'expand': 'history.lastUpdated'}. This ensures we only get pages and that we retrieve the "last modified" date, as required by RFC-4.
+1. Define the required query parameters: {'type': 'page', 'expand': 'history.lastUpdated,history.createdBy'}. This ensures we only get pages and that we retrieve the "last modified" date, as required by RFC-4. As per RFC-5, we are also including who has created the page. Who has last updated the page should already be included in history.lastUpdated.
 2. Run the loop
 3. Return the results
 
@@ -98,12 +98,12 @@ Logic: This function transforms the raw API data into the simple CSV format. The
 `process_page_data(raw_pages_list, base_url, active_year_threshold)`
 
 INPUTS:
-- `raw_pages_list` list[dict]: The list of all page data pulled by the process described in 4.3
+- `raw_pages_list` list[dict]: The list of all page data pulled by the process described in 3.3
 - `base_url` (str): Confluence Base URL, used for constructing the URL that will be added to the output file.
 - `archive_year_threshold` (int): The year to use for the archive check
 
 OUTPUTS:
-- `cleaned_pages`: list of tuples (str, str, bool): A list of Page Titles, their corresponding URLS, and whether they are archive candidates
+- `cleaned_pages`: list of tuples (str, str, str, str, bool): A list containing Page Title, Page URL, Creator Name, Last Modifier Name, and Archive Candidate status.
 
 Loop Architecture:
 1. Extract the Space Key from the `item["_expandable"]["space"]` path, which is in the format `/rest/api/space/SYSTEMS` with `SYSTEMS` being the desired key. 
@@ -111,7 +111,10 @@ Loop Architecture:
 3. If a page is NOT archived proceed with the following steps; else move to next item
 4. Extract the title and relative URL from the results
 5. Generate full URL with `base_url` plus relative URL
-6. Extract year from the the ISO 8601 string found in `item["history"]["lastUpdated"]["when"]`
+6. Extract Metadata:
+* Creator: Extract displayName from `item["history"]["createdBy"]`. Handle cases where the user is "Anonymous" or keys are missing safely.
+* Modifier: Extract displayName from `item["history"]["lastUpdated"]["by"]`
+* Date: Extract year from the ISO 8601 string found in `item["history"]["lastUpdated"]["when"]`
 7. Generate a boolean for whether the lastUpdate year is less than or equal to the `archive_year_threshold`
 8. Append the tuple of Title, Full URL, and the boolean from step 7 to the `cleaned_pages`
 
@@ -120,12 +123,12 @@ Loop Architecture:
 Writes the data to the CSV.
 
 INPUTS:
-- `cleaned_pages` list of tuples (str, str, bool): A list of Page Titles, their corresponding URLS, and whether they're a candidate for archiving.
+- `cleaned_pages` list of tuples (str, str, str, str, bool): A list of Page Titles, URLS, Creator, Modifier, and whether they're a candidate for archiving.
 - `filename` str: The filename to write.
 
 Logic:
 1. Use `csv` module to open the file
-2. Write headers `["Page Title", "Page URL", "Archive Candidate?"]`
+2. Write headers `["Page Title", "Page URL", "Creator", "Last Modifier", "Archive Candidate?"]`
 3. Save all processed page data. For Archive Candidate, write 'yes' if True and nothing if false.
 
 ## 4. Error Handling Strategy
