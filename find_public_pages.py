@@ -25,7 +25,7 @@ API_START_ENDPOINT = "/rest/api/content"
 OUTPUT_FILENAME = "non_archived_public_pages.csv"
 
 # List of space keys to exclude from the final report, per RFC-3.
-ARCHIVED_SPACES = ['COV19', 'DR']
+ARCHIVED_SPACES = ['COV19', 'DR', 'NEXTILS']
 
 # The year threshold for highlighting archivable candidates, per RFC-4.
 # Any page last modified in or before this year will be marked.
