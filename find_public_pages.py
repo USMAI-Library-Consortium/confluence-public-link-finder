@@ -24,6 +24,9 @@ API_START_ENDPOINT = "/rest/api/content"
 # The name of the output file.
 OUTPUT_FILENAME = "non_archived_public_pages.csv"
 
+# Page Counts CSV Filename
+PAGE_COUNTS_FILE = "PageCountViews.csv"
+
 # List of space keys to exclude from the final report, per RFC-3.
 ARCHIVED_SPACES = ['COV19', 'DR', 'NEXTILS']
 
@@ -120,8 +123,19 @@ def fetch_all_public_pages(start_url):
     print(f"Finished fetching. Found {len(all_results)} total items.")
     return all_results
 
+def extract_page_counts_dict(page_counts_file):
+    dictionary = {}
 
-def process_page_data(raw_results: list[dict], base_url, archive_year_threshold: int):
+    with open(page_counts_file, newline='') as f:
+        countreader = csv.reader(f)
+
+        for row in countreader:
+            if row[8] != 'Views':
+                dictionary[row[1]] = int(row[8])
+
+    return dictionary
+
+def process_page_data(raw_results: list[dict], base_url, archive_year_threshold: int, page_counts):
     """
     Filters the raw API results for "page" type and extracts title and URL.
 
@@ -130,11 +144,12 @@ def process_page_data(raw_results: list[dict], base_url, archive_year_threshold:
     Args:
         raw_results (list): List of raw item dictionaries from the API.
         base_url (str): The base Confluence URL to build full URLs.
+        active_year_threshold (int): Threshold for marking a page as not being modified in a while
 
     Returns:
-        list: A list of (title, url, is_archivable) tuples.
+        list: A list of dictionaries containing the data for a page.
     """
-    cleaned_pages = []
+    cleaned_pages: list[dict] = []
     print(f"  -> Processing {len(raw_results)} items. Filtering archived spaces...")
     
     for item in raw_results:
@@ -151,6 +166,9 @@ def process_page_data(raw_results: list[dict], base_url, archive_year_threshold:
 
             # If not archived, proceed
             title = item['title']
+
+            view_count = page_counts.get(title, 0)
+
             # The webui link is relative, needs the base URL
             relative_url = item['_links']['webui']
             full_url = base_url + relative_url
@@ -177,7 +195,14 @@ def process_page_data(raw_results: list[dict], base_url, archive_year_threshold:
                 print(f"Warning: Could not determine last-modified date for '{title}'.")
         
             # RFC-5: Added creator_name and modifier_name to the tuple
-            cleaned_pages.append((title, full_url, creator_name, modifier_name, is_archivable))
+            cleaned_pages.append({
+                "title": title,
+                "full_url": full_url,
+                "creator_name": creator_name,
+                "last_modifier_name": modifier_name,
+                "is_archivable": is_archivable,
+                "view_count": view_count
+            })
         
         except KeyError as e:
             # This handles items missing a title, link, or expandable container
@@ -187,31 +212,34 @@ def process_page_data(raw_results: list[dict], base_url, archive_year_threshold:
     return cleaned_pages
 
 
-def write_to_csv(pages_list, filename):
+def write_to_csv(pages_list: list[dict], filename):
     """
-    Writes the list of (title, url) tuples to a CSV file.
+    Writes the list of dictionaries to a CSV file. Sorts them by viewcount, descending first.
 
     Args:
-        pages_list (list): The list of (title, url) tuples.
+        pages_list (list): The list of page data dictionaries.
         filename (str): The name of the CSV file to create.
 
     Raises:
         PermissionError: If the file cannot be written.
     """
+    # Sort by descending viewcount so that we can prioritize high-traffic pages 
+    pages_list.sort(key=lambda x: x['view_count'], reverse=True)
+
     try:
         # PRD Story 2: Create a single CSV file
         with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.writer(csvfile)
 
             # Write headers
-            writer.writerow(["Page Title", "Page URL", "Creator", "Last Modifier", "Last Modified 6+ Years Ago?"])
+            writer.writerow(["Page Title", "Page URL", "Creator", "Last Modifier", "View Count", "Last Modified 6+ Years Ago?"])
 
             # Write all the page data
             # We loop manually to format the boolean as 'Yes' or an empty string
-            for title, url, creator, modifier, is_archivable in pages_list:
+            for page_info in pages_list:
                 # RFC-4: Create status for whether a page is a likely candidate for archiving.
-                archive_status = "Yes" if is_archivable else ""
-                writer.writerow([title, url, creator, modifier, archive_status])
+                archive_status = "Yes" if page_info["is_archivable"] else ""
+                writer.writerow([page_info["title"], page_info["full_url"], page_info["creator_name"], page_info["last_modifier_name"], page_info["view_count"], archive_status])
 
     except PermissionError:
         # PRD Story 5: Helpful Errors
@@ -242,10 +270,11 @@ def main():
     try:
         # 1. Extract
         raw_data = fetch_all_public_pages(start_url)
+        raw_page_counts_info = extract_page_counts_dict(PAGE_COUNTS_FILE)
 
         # 2. Transform
         print(f"\nProcessing {len(raw_data)} items to find pages...")
-        public_pages = process_page_data(raw_data, base_url, ARCHIVE_THRESHOLD_YEAR)
+        public_pages = process_page_data(raw_data, base_url, ARCHIVE_THRESHOLD_YEAR, raw_page_counts_info)
 
         if not public_pages:
             print("\nScan complete! No public pages were found.")
@@ -256,7 +285,7 @@ def main():
 
         # --- Start: RFC-4 Change ---
         # Count archivable candidates for the final report
-        archive_candidate_count = sum(1 for page in public_pages if page[4]) # page[4] is the boolean
+        archive_candidate_count = sum(1 for page in public_pages if page["is_archivable"]) # page[4] is the boolean
         print(f"  -> Of these, {archive_candidate_count} pages are candidates for archiving (modified in or before {ARCHIVE_THRESHOLD_YEAR}).")
         # --- End: RFC-4 Change ---
 
@@ -272,10 +301,6 @@ def main():
     except (RequestException, PermissionError):
         # Errors are already printed by the functions that raised them.
         print("\nScan failed. Please fix the error above and try again.")
-        sys.exit(1)
-    except Exception as e:
-        # Catch any other unexpected error
-        print(f"\nAn fatal, unexpected error occurred: {e}")
         sys.exit(1)
 
 
